@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie_application/api/api.dart';
+import 'package:movie_application/constant.dart';
 import 'package:movie_application/models/movie.dart';
 
 class homePage extends StatefulWidget {
@@ -13,10 +14,14 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
   late Future<List<Movie>> tredningMovies;
+  late Future<List<Movie>> upcomingMovies;
+  late Future<List<Movie>> topRatedMovies;
   @override
   void initState(){
     super.initState();
     tredningMovies=Api().getPopularMovies();
+    upcomingMovies=Api().getUpcomingMovies();
+    topRatedMovies=Api().getTopRatedMovies();
   }
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,23 @@ class _homePageState extends State<homePage> {
           children: [
             const Center(child: Text("Recommended", style: TextStyle(fontSize: 20)),),
             const SizedBox(height: 20),
-            const Recommended_widget(),
+            SizedBox(
+              child: FutureBuilder(
+                future: tredningMovies,
+                builder: (context, snapshot){
+                  if(snapshot.hasError){
+                    return Center(child: Text(snapshot.error.toString()),
+                    );
+                  }else if(snapshot.hasData){
+                    final data= snapshot.data;
+                    return Recommended_widget(snapshot: snapshot);
+                  }
+                  else{
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ),
             const SizedBox(height: 30,),
             Center(child:  const Text("Explore",
               style: TextStyle(fontSize: 40),
@@ -50,7 +71,7 @@ class _homePageState extends State<homePage> {
                     );
                   }else if(snapshot.hasData){
                     final data= snapshot.data;
-                    return const Explore_widget();
+                    return Explore_widget(snapshot: snapshot,);
                   }
                   else{
                     return const Center(child: CircularProgressIndicator());
@@ -59,13 +80,29 @@ class _homePageState extends State<homePage> {
               ),
             ),
             SizedBox(height: 20,),
-            const SizedBox(height: 30,),
+            SizedBox(height: 30,),
             Center(child:  const Text("Newly Released",
               style: TextStyle(fontSize: 40),
             ),
             ),
             SizedBox(height: 20,),
-            Newly_Released_widget(),
+            SizedBox(
+              child: FutureBuilder(
+                future: tredningMovies,
+                builder: (context, snapshot){
+                  if(snapshot.hasError){
+                    return Center(child: Text(snapshot.error.toString()),
+                    );
+                  }else if(snapshot.hasData){
+                    final data= snapshot.data;
+                    return Newly_Released_widget(snapshot: snapshot);
+                  }
+                  else{
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -75,15 +112,16 @@ class _homePageState extends State<homePage> {
 
 class Newly_Released_widget extends StatelessWidget {
   const Newly_Released_widget({
-    super.key,
+    super.key, required this.snapshot,
   });
+  final AsyncSnapshot snapshot;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200, width: double.infinity,
       child: ListView.builder(
-          itemCount: 10,
+          itemCount: snapshot.data!.length,
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index){
@@ -91,11 +129,14 @@ class Newly_Released_widget extends StatelessWidget {
               padding: EdgeInsets.all(5.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  color: Colors.blue,
-                  height: 200,
-                  width: 150,
-                ),
+                child: SizedBox(
+                  height: 300,
+                  width:200,
+                  child: Image.network(
+                      filterQuality: FilterQuality.high,
+                      fit: BoxFit.cover,
+                      '${Constant.imagePath}${snapshot.data![index].posterPath}'),
+                )
               ),
             );
           }),
@@ -105,15 +146,16 @@ class Newly_Released_widget extends StatelessWidget {
 
 class Explore_widget extends StatelessWidget {
   const Explore_widget({
-    super.key,
+    super.key, required this.snapshot,
   });
+  final AsyncSnapshot snapshot;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200, width: double.infinity,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: snapshot.data!.length,
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index){
@@ -121,11 +163,14 @@ class Explore_widget extends StatelessWidget {
             padding: EdgeInsets.all(5.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Container(
-                color: Colors.blue,
-                height: 200,
-                width: 150,
-              ),
+              child: SizedBox(
+                height: 300,
+                width:200,
+                child: Image.network(
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.cover,
+                    '${Constant.imagePath}${snapshot.data[index].posterPath}'),
+              )
             ),
           );
           }),
@@ -135,15 +180,17 @@ class Explore_widget extends StatelessWidget {
 
 class Recommended_widget extends StatelessWidget {
   const Recommended_widget({
-    super.key,
+    super.key, required this.snapshot,
   });
+
+  final AsyncSnapshot snapshot;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(width: double.infinity,
       child:
       CarouselSlider.builder(
-        itemCount: 10,
+        itemCount: snapshot.data!.length,
         options: CarouselOptions(
           height: 300,
           viewportFraction: 0.7,
@@ -156,10 +203,13 @@ class Recommended_widget extends StatelessWidget {
         ),
         itemBuilder: (context, itemIndex, pageViewIndex){
           return ClipRRect(borderRadius: BorderRadius.circular(30),
-          child: Container(
+          child: SizedBox(
             height: 300,
             width:200,
-            color: Colors.red,
+            child: Image.network(
+              filterQuality: FilterQuality.high,
+              fit: BoxFit.cover,
+            '${Constant.imagePath}${snapshot.data[itemIndex].posterPath}'),
           ));
         }
       ),

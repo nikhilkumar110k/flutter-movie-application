@@ -23,12 +23,12 @@ class Movie{
 
   factory Movie.fromJson(Map<String, dynamic> json){
     return Movie(
-        title:json["title"] ?? "Unavailable",
-        backDropPath: json["backdrop_path"] ?? "Unavailable",
-        originalTitle: json["original_title"] ?? "Unavailable",
-        overview: json["overview"] ?? "Unavailable",
-        posterPath: json["poster_path"] ?? "Unavailable",
-        voteAverage: json["vote_average"] ?? "Unavailable",
-        releaseDate: json["release_date"] ?? "Unavailable");
+        title:json["title"].toString() ?? "Unavailable",
+        backDropPath: json["backdrop_path"].toString() ?? "Unavailable",
+        originalTitle: json["original_title"].toString() ?? "Unavailable",
+        overview: json["overview"].toString() ?? "Unavailable",
+        posterPath: json["poster_path"].toString() ?? "Unavailable",
+        voteAverage: json["vote_average"].toDouble() ?? "Unavailable",
+        releaseDate: json["release_date"].toString() ?? "Unavailable");
   }
 }
