@@ -211,7 +211,7 @@ class Recommended_widget extends StatelessWidget {
           autoPlay: true,
           enlargeCenterPage: true,
           pageSnapping: true,
-          autoPlayAnimationDuration: const Duration(seconds: 5),
+          autoPlayAnimationDuration: const Duration(seconds: 2),
         ),
         itemBuilder: (context, itemIndex, pageViewIndex){
           return GestureDetector(
