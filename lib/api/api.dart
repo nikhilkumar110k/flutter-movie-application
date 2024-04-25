@@ -5,7 +5,7 @@ import 'package:movie_application/models/movie.dart';
 import 'package:http/http.dart' as http;
 class Api{
   static const _trendingUrl='https://api.themoviedb.org/3/movie/popular?api_key=${Constant.apikey}';
-  static const _topRatedUrl='https://api.themoviedb.org/3/movie/top_rated?api_key${Constant.apikey}';
+  static const _topRatedUrl='https://api.themoviedb.org/3/trending/movie/day?api_key${Constant.apikey}';
   static const _upComingUrl='https://api.themoviedb.org/3/movie/upcoming?api_key${Constant.apikey}';
 
 

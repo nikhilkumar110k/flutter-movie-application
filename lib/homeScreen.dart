@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:movie_application/api/api.dart';
 import 'package:movie_application/constant.dart';
+import 'package:movie_application/details.dart';
 import 'package:movie_application/models/movie.dart';
 
 class homePage extends StatefulWidget {
@@ -127,16 +128,20 @@ class Newly_Released_widget extends StatelessWidget {
           itemBuilder: (context, index){
             return Padding(
               padding: EdgeInsets.all(5.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: SizedBox(
-                  height: 300,
-                  width:200,
-                  child: Image.network(
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
-                      '${Constant.imagePath}${snapshot.data![index].posterPath}'),
-                )
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[index])));},
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    height: 300,
+                    width:200,
+                    child: Image.network(
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
+                        '${Constant.imagePath}${snapshot.data![index].posterPath}'),
+                  )
+                ),
               ),
             );
           }),
@@ -161,16 +166,23 @@ class Explore_widget extends StatelessWidget {
           itemBuilder: (context, index){
           return Padding(
             padding: EdgeInsets.all(5.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: SizedBox(
-                height: 300,
-                width:200,
-                child: Image.network(
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.cover,
-                    '${Constant.imagePath}${snapshot.data[index].posterPath}'),
-              )
+            child: GestureDetector(
+
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[index])));},
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    height: 300,
+                    width:200,
+                    child: Image.network(
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
+                        '${Constant.imagePath}${snapshot.data[index].posterPath}'),
+                  )
+                ),
+              ),
             ),
           );
           }),
@@ -202,15 +214,19 @@ class Recommended_widget extends StatelessWidget {
           autoPlayAnimationDuration: const Duration(seconds: 5),
         ),
         itemBuilder: (context, itemIndex, pageViewIndex){
-          return ClipRRect(borderRadius: BorderRadius.circular(30),
-          child: SizedBox(
-            height: 300,
-            width:200,
-            child: Image.network(
-              filterQuality: FilterQuality.high,
-              fit: BoxFit.cover,
-            '${Constant.imagePath}${snapshot.data[itemIndex].posterPath}'),
-          ));
+          return GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[itemIndex])));},
+            child: ClipRRect(borderRadius: BorderRadius.circular(30),
+            child: SizedBox(
+              height: 300,
+              width:200,
+              child: Image.network(
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.cover,
+              '${Constant.imagePath}${snapshot.data[itemIndex].posterPath}'),
+            )),
+          );
         }
       ),
     );
