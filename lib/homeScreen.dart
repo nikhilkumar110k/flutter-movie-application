@@ -130,17 +130,17 @@ class Newly_Released_widget extends StatelessWidget {
               padding: EdgeInsets.all(5.0),
               child: GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[index])));},
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[index], snapshot: snapshot,)));},
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    height: 300,
-                    width:200,
-                    child: Image.network(
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.cover,
-                        '${Constant.imagePath}${snapshot.data![index].posterPath}'),
-                  )
+                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      height: 300,
+                      width:200,
+                      child: Image.network(
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.cover,
+                          '${Constant.imagePath}${snapshot.data![index].posterPath}'),
+                    )
                 ),
               ),
             );
@@ -160,31 +160,31 @@ class Explore_widget extends StatelessWidget {
     return SizedBox(
       height: 200, width: double.infinity,
       child: ListView.builder(
-        itemCount: snapshot.data!.length,
+          itemCount: snapshot.data!.length,
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index){
-          return Padding(
-            padding: EdgeInsets.all(5.0),
-            child: GestureDetector(
-
+            return Padding(
+              padding: EdgeInsets.all(5.0),
               child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[index])));},
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    height: 300,
-                    width:200,
-                    child: Image.network(
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.cover,
-                        '${Constant.imagePath}${snapshot.data[index].posterPath}'),
-                  )
+
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[index], snapshot: snapshot,)));},
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: SizedBox(
+                        height: 300,
+                        width:200,
+                        child: Image.network(
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                            '${Constant.imagePath}${snapshot.data[index].posterPath}'),
+                      ),
+                  ),
                 ),
               ),
-            ),
-          );
+            );
           }),
     );
   }
@@ -202,34 +202,33 @@ class Recommended_widget extends StatelessWidget {
     return SizedBox(width: double.infinity,
       child:
       CarouselSlider.builder(
-        itemCount: snapshot.data!.length,
-        options: CarouselOptions(
-          height: 300,
-          viewportFraction: 0.7,
-          autoPlayCurve: Curves.fastOutSlowIn,
-          aspectRatio: 16/9,
-          autoPlay: true,
-          enlargeCenterPage: true,
-          pageSnapping: true,
-          autoPlayAnimationDuration: const Duration(seconds: 2),
-        ),
-        itemBuilder: (context, itemIndex, pageViewIndex){
-          return GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[itemIndex])));},
-            child: ClipRRect(borderRadius: BorderRadius.circular(30),
-            child: SizedBox(
-              height: 300,
-              width:200,
-              child: Image.network(
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.cover,
-              '${Constant.imagePath}${snapshot.data[itemIndex].posterPath}'),
-            )),
-          );
-        }
+          itemCount: snapshot.data!.length,
+          options: CarouselOptions(
+            height: 300,
+            viewportFraction: 0.7,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            aspectRatio: 16/9,
+            autoPlay: true,
+            enlargeCenterPage: true,
+            pageSnapping: true,
+            autoPlayAnimationDuration: const Duration(seconds: 2),
+          ),
+          itemBuilder: (context, itemIndex, pageViewIndex){
+            return GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> detailsScreen(movie: snapshot.data[itemIndex], snapshot: snapshot,)));},
+              child: ClipRRect(borderRadius: BorderRadius.circular(30),
+                  child: SizedBox(
+                    height: 300,
+                    width:200,
+                    child: Image.network(
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
+                        '${Constant.imagePath}${snapshot.data[itemIndex].posterPath}'),
+                  )),
+            );
+          }
       ),
     );
   }
 }
-
