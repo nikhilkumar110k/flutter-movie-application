@@ -30,14 +30,18 @@ class detailsScreen extends StatelessWidget {
                           child:
                             Column(
                               children: [
-                                const Text("Scroll to view Information", style: TextStyle(color: Colors.white),),
                                 SizedBox(
-                                  height: 150,
-                                  width: 100,
+                                  width: 150,
+                                  height: 100,
                                   child: Image.network(
                                       filterQuality: FilterQuality.high,
                                       fit: BoxFit.fitWidth,
                                       '${Constant.imagePath}${snapshot.data[index].posterPath}'),
+                                ),
+                                const Text("Scroll to view Information", style: TextStyle(color: Colors.white),),
+                                const SizedBox(
+                                  height: 150,
+                                  width: 100,
                                 ),
                                 SizedBox(
                                   child: Text('Overview: ${movie.overview} \n \n Release Date: ${movie.releaseDate} \n \n Average Vote: ${movie.voteAverage} \n Vote Count: ${movie.votecount} \n Cast: ${Constant.imagePath}${snapshot.data[index].posterPath}', style: const TextStyle(
